@@ -1,0 +1,178 @@
+{% extends 'common/base.html' %}
+{% load static %}
+
+{% block title %}
+    AI Blog APP | Home
+{% endblock %}
+{% block css %}
+<style>
+    body{
+        background-color:#f5f5f5;
+
+    }
+    
+    .main-area{
+        display: flex-col;
+        align-items: left;
+        padding: 20px;
+        background: #e8e8e8;
+    }
+    .userfeed{
+        width: 100%;
+        max-width: 500px;
+        margin: auto;
+        margin-top: 40px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+    }
+    .hidden{
+        display: none !important;
+    }
+    .shadow{
+        box-shadow: rgba(99, 99, 99, 0.75) 0px 2px 8px 0px !important;
+    }
+    .white{
+        background: #fff;
+    }
+
+    h1{
+        font-size:2rem !important;
+    }
+    #message-box{
+        display: flex;
+        justify-content: space-between;
+        width: 400px;
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+        z-index: 999;
+    }
+
+    #blog-content{
+        height: 250px;
+        overflow-y: scroll;
+    }
+        
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    #blog-content::-webkit-scrollbar {
+        display: none;
+    }
+    
+    /* Hide scrollbar for IE, Edge and Firefox */
+    #blog-content {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+
+</style>
+{% endblock %}
+
+{% block body%}
+<div class="main-area">
+    <div class="container-fluid mt-2 mb-5">
+        {% if user.is_authenticated %}
+            <h3 class="text-center">Hey {{ user.username }}! Good to see you </h3>
+        {% else %}
+            <div class="d-flex justify-content-center align-item-center">
+                <span class="text-center">Hey Buddy, You are not Logged In.
+                    <a href="{% url 'login' %}">Log In</a> or <a href="{% url 'signup' %}">Sign Up</a>
+                </span>
+            </div>
+        {% endif %}
+    </div>
+    <div class="my-2, p-3 white shadow" style="width: 75%; margin: 10px auto; border-radius:5px;">
+        <div class="search-div d-flex flex-column align-items-center">
+
+            <h1>AI Powered Blog Generator</h1>
+            <p><i>Generate seamless blogs utilizing the power of generative AIs.</i></p>
+            
+
+            <form id="get_blog_form" method="GET">
+                <div class="input-group my-3" style="width:650px;">
+                    <input type="search" id="link-input" class="form-control rounded" placeholder="Youtube Video Link..." aria-label="Search" aria-describedby="search-addon" />
+                    <button type="submit" id="generate-blog-btn" class="btn btn-primary" data-mdb-ripple-init>Generate</button>
+                </div>
+            </form>
+            
+        </div>
+    </div>
+    <div class="my-2, p-3 white shadow" style="width: 75%; height:55vh; margin: 10px auto; border-radius:5px;">
+        <div class="d-flex flex-column m-2">
+            <h5>Blog Generated:</h5>
+        </div>
+        <div id="blog-container" class="row p-3">
+            <div class="col-8" id="blog-content">
+                <img src="{% static 'blogs/loader.gif' %}" alt="loading"/ id="loader" style="width:250px; object-fit:cover;" class="hidden">
+            </div>
+            <div class="col-4">
+                <img src="{% static 'blogs/cat.png' %}" alt="loading"/ style="width:250px; object-fit:cover;" class="float-center">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Message -->
+<div id="message-box" class="alert alert-warning alert-dismissible fade show hidden" role="alert">
+    <p id="message">You should check in on some of those fields below.</p>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+{% endblock %}
+
+{% block js %}
+    <script>
+        document.getElementById("generate-blog-btn").addEventListener("click", function(event) {
+
+            event.preventDefault();
+
+            const blog_content = document.getElementById("blog-content");
+            const loader = document.getElementById("loader");
+            const message_box = document.getElementById("message-box");
+            const message = document.getElementById("message");
+            
+            loader.classList.toggle("hidden");    
+
+            // Function to update the innerHTML of the blog-content div
+            function updateBlogContent(content) {
+                blog_content.innerHTML = content;
+            }  
+
+            const youtube_link = document.getElementById("link-input").value;
+            const url = "{% url 'get-blog' %}";
+
+            if (!youtube_link) alert("You must enter a valid YouTube Video Link.");
+            
+            // Request to the get-blog endpoint
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    youtube_link: youtube_link
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    loader.classList.toggle("hidden");
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
+            .then(data => {
+                // If the request is successful, update the blog content
+                message.innerHTML = data.message;
+                message_box.classList.toggle("hidden");
+                updateBlogContent(data.blog);
+            })
+            .catch(error => {
+                // If there's an error, show an alert with the error message4
+                alert(error.message);
+            });
+        });
+
+        </script>
+{% endblock %}
