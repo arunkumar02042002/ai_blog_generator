@@ -86,7 +86,14 @@
 
             <h1>AI Powered Blog Generator</h1>
             <p><i>Generate seamless blogs utilizing the power of generative AIs.</i></p>
+            <p><i>It uses several tools and modules to perform required actions.</i></p>
+            <ul>
+                <li><strong>Pytube</strong> - To extract audio from the YouTube Video.</li>
+                <li><strong>Assembly AI</strong> - To extract the transcript from the audio.</li>
+                <li><strong>OpenAI GPT-3</strong> - To covert the transcript into an article.</li>
+            </ul>
             
+            <p><i>Enter a youtube video link to see the magic.</i></p>
 
             <form id="get_blog_form" method="GET">
                 <div class="input-group my-3" style="width:650px;">
@@ -97,7 +104,7 @@
             
         </div>
     </div>
-    <div class="my-2, p-3 white shadow" style="width: 75%; height:55vh; margin: 10px auto; border-radius:5px;">
+    <div class="my-2, p-3 white shadow" style="width: 75%; height:80vh; margin: 10px auto; border-radius:5px;">
         <div class="d-flex flex-column m-2">
             <h5>Blog Generated:</h5>
         </div>

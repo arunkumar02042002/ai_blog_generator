@@ -14,5 +14,20 @@ class AssemblyAIUtility:
             return transcript.text
         except Exception as e:
             return False
+        
+    def get_audio_smmary(self, audio_path:str, prompt:str=None) -> str:
+
+        if not prompt:
+            prompt = 'Provide a brief summary of the transcript.'
+            transcript = self.transcriber.transcribe(audio_path)
+            text = transcript.text
+        
+        try:
+            result = transcript.lemur.task(prompt)
+            return True, result.response
+        
+        except Exception as e:
+            print(e)
+            return False, text
     
 assembly = AssemblyAIUtility()

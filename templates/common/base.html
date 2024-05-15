@@ -14,6 +14,9 @@
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+    <!-- Ajax -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <title>{% block title %}{% endblock %}</title>
 
     {% block css %}
@@ -40,11 +43,14 @@
                         <a class="nav-link active text-white" aria-current="page" href="{% url 'home' %}">Home</a>
                     </li>
                     <li class="nav-item mr-5">
+                        <a class="nav-link active text-white" aria-current="page" href="{% url 'audio-analyzer' %}">Audio Analyzer</a>
+                    </li>
+                    <li class="nav-item mr-5">
                         <a class="nav-link active text-white" aria-current="page" href="{% url 'blog-list' %}">My Posts</a>
                     </li>
-                    {% comment %} <li class="nav-item mr-5">
-                        <a class="btn btn-outline-primary" aria-current="page" href="{% url 'blog_new' %}">New <i class="fa-solid fa-plus"></i></a>
-                    </li> {% endcomment %}
+                    <li class="nav-item mr-5">
+                        <a class="nav-link active text-white" aria-current="page" href="{% url 'audios' %}">My Audios</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -66,7 +72,6 @@
                 {% else %}
                 <li><a class="dropdown-item btn btn-outline-secondary" href="{% url 'login' %}">Login</a></li>
                 <li><a class="dropdown-item btn btn-outline-secondary" href="{% url 'signup' %}">Singup</a></li>
-
                 {% endif %}
 
             </ul>
@@ -77,10 +82,15 @@
     {% endblock %}
 
     <!-- Footer -->
-    <footer class="bg-body-tertiary text-center text-white text-lg-start">
-        <div class="text-center p-3 bg-dark">
-          © 2024 Copyright:
-          <a class="text-body text-white" href="{% url 'home' %}" style=" text-decoration: none; color: white !important;">Arun Kumar</a>
+    <footer class="bg-dark text-center text-white text-lg-start">
+        <div class="text-center p-1 bg-dark">
+            <a class="text-body text-white" href="{% url 'home' %}" style=" text-decoration: none; color: white !important;">Go to Home Page</a>
+        </div>
+        <div class="text-center p-1 bg-dark">
+          © 2024 Copyright: Arun Kumar
+        </div>
+        <div class="text-center p-1 bg-dark">
+            Contact: arun.kumar.2403gg@gmail.com
         </div>
     </footer>
     

@@ -18,7 +18,7 @@ class YouTubeUtility:
             name, extension = os.path.splitext(output)
             new_name = name+shortuuid.uuid()+'.mp3'
             os.rename(output, new_name)
-            # print(new_name)
+            print(new_name)
             return {
                 'title':selected_video.title,
                 'audio_name':new_name.split('/')[-1],

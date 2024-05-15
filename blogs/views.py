@@ -55,9 +55,9 @@ class BlogDeleteView(LoginRequiredMixin, DeleteView):
 def get_blog(request):
     if request.method == 'POST':
         requested_data = json.loads(request.body)
-        print(1)
+
         youtube_link = requested_data.get('youtube_link')
-        print(2)
+
         if youtube_link is None:
             return JsonResponse({
                 "error": "Youtube link is not valid."
@@ -65,14 +65,13 @@ def get_blog(request):
 
         try:
             response = BlogGenerator.generate(youtube_video_link=youtube_link)
-            print(3)
             blog = Blog.objects.create(
                 user = request.user,
                 title = response["title"],
                 video_link = youtube_link,
                 content = response["content"]
             )
-            print(4)
+
             if response['status'] is False:
                 return JsonResponse({
                     "error":True,
@@ -87,7 +86,7 @@ def get_blog(request):
             }, status=201)
         
         except Exception as e:
-            print(5)
+
             return JsonResponse({
                 "error":True,
                 "message":"Something bad had happend!",

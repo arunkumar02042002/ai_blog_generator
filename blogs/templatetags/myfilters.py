@@ -13,6 +13,11 @@ def addclass(value, token):
     value.field.widget.attrs["class"] = token
     return value
 
+def addAcceptAttr(value, token):
+    value.field.widget.attrs["accept"] = token
+    return value
+
 register.filter(addplaceholder)
 register.filter(lower_case)
 register.filter(addclass)
+register.filter(addAcceptAttr)

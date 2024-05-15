@@ -61,7 +61,7 @@
             <div style="background: #9e9d9d; height:2px; width:100%; margin: 10px 0"></div>
         </div>
         <div class="content">
-            {{blog.content}}
+            {{blog.content|safe|linebreaks}}
         </div>
     </div>
 </div>

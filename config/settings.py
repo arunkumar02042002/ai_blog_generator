@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     "accounts",
     "blogs",
+    "analyzer",
 ]
 
 MIDDLEWARE = [
@@ -144,3 +145,6 @@ LOGOUT_REDIRECT_URL = "login"
 # API Keys
 OPENAI_API_KEY = config('OPENAI_API_KEY')
 ASSEMBLYAI_API_KEY = config('ASSEMBLYAI_API_KEY')
+
+# Upload Data Size
+DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880 #5MB
